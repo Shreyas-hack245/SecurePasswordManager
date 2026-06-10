@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class RegisterFrame extends JFrame {
 
@@ -29,10 +30,9 @@ public class RegisterFrame extends JFrame {
         btnRegister = new JButton("Register");
         btnBack = new JButton("Back");
 
-        // Register Button Action
         btnRegister.addActionListener(e -> {
 
-            String username = txtUsername.getText();
+            String username = txtUsername.getText().trim();
 
             String password =
                     String.valueOf(txtPassword.getPassword());
@@ -49,7 +49,6 @@ public class RegisterFrame extends JFrame {
                         this,
                         "Please fill all fields!"
                 );
-
                 return;
             }
 
@@ -59,7 +58,6 @@ public class RegisterFrame extends JFrame {
                         this,
                         "Passwords do not match!"
                 );
-
                 return;
             }
 
@@ -69,7 +67,7 @@ public class RegisterFrame extends JFrame {
                         DatabaseConnection.getConnection();
 
                 String sql =
-                        "INSERT INTO users(username,password) VALUES(?,?)";
+                        "INSERT INTO users(username, master_password_hash) VALUES(?, ?)";
 
                 PreparedStatement ps =
                         con.prepareStatement(sql);
@@ -77,27 +75,33 @@ public class RegisterFrame extends JFrame {
                 ps.setString(1, username);
                 ps.setString(2, password);
 
-                ps.executeUpdate();
+                int rows = ps.executeUpdate();
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Registration Successful!"
-                );
+                if (rows > 0) {
 
-                dispose();
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Registration Successful!"
+                    );
+
+                    dispose();
+
+                }
+
+                con.close();
 
             } catch (Exception ex) {
 
                 JOptionPane.showMessageDialog(
                         this,
-                        "Username already exists or database error!"
+                        "Registration Failed!"
                 );
 
                 ex.printStackTrace();
             }
+
         });
 
-        // Back Button Action
         btnBack.addActionListener(e -> {
             dispose();
         });
