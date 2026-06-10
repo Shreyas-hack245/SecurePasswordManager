@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DatabaseConnection {
 
@@ -8,12 +7,18 @@ public class DatabaseConnection {
             "jdbc:mysql://localhost:3306/password_manager";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "your_password";
+
+    private static final String PASSWORD = "YOUR_PASSWORD";
 
     public static Connection getConnection() {
+
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
+            return DriverManager.getConnection(
+                    URL,
+                    USER,
+                    PASSWORD
+            );
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
