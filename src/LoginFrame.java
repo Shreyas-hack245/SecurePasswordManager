@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class LoginFrame extends JFrame {
 
@@ -26,6 +27,10 @@ public class LoginFrame extends JFrame {
 
         btnLogin = new JButton("Login");
         btnRegister = new JButton("Register");
+
+        btnRegister.addActionListener(e -> {
+            new RegisterFrame();
+        });
 
         add(lblTitle);
         add(new JLabel(""));
