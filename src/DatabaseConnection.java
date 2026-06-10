@@ -8,21 +8,27 @@ public class DatabaseConnection {
 
     private static final String USER = "root";
 
-    private static final String PASSWORD = "YOUR_MYSQL_PASSWORD";
+    private static final String PASSWORD = "YOUR_PASSWORD";
 
     public static Connection getConnection() {
 
         try {
 
-            return DriverManager.getConnection(
-                    URL,
-                    USER,
-                    PASSWORD
-            );
+            Connection con =
+                    DriverManager.getConnection(
+                            URL,
+                            USER,
+                            PASSWORD);
+
+            System.out.println("Database Connected!");
+
+            return con;
 
         } catch (Exception e) {
 
+            System.out.println("Connection Failed!");
             e.printStackTrace();
+
             return null;
         }
     }

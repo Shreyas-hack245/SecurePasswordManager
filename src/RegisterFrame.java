@@ -33,13 +33,8 @@ public class RegisterFrame extends JFrame {
         btnRegister.addActionListener(e -> {
 
             String username = txtUsername.getText().trim();
-
-            String password =
-                    String.valueOf(txtPassword.getPassword());
-
-            String confirmPassword =
-                    String.valueOf(
-                            txtConfirmPassword.getPassword());
+            String password = String.valueOf(txtPassword.getPassword());
+            String confirmPassword = String.valueOf(txtConfirmPassword.getPassword());
 
             if (username.isEmpty() ||
                     password.isEmpty() ||
@@ -63,8 +58,7 @@ public class RegisterFrame extends JFrame {
 
             try {
 
-                Connection con =
-                        DatabaseConnection.getConnection();
+                Connection con = DatabaseConnection.getConnection();
 
                 String sql =
                         "INSERT INTO users(username, master_password_hash) VALUES(?, ?)";
@@ -85,26 +79,23 @@ public class RegisterFrame extends JFrame {
                     );
 
                     dispose();
-
                 }
 
                 con.close();
 
             } catch (Exception ex) {
 
+                ex.printStackTrace();
+
                 JOptionPane.showMessageDialog(
                         this,
-                        "Registration Failed!"
+                        "Error: " + ex.getMessage()
                 );
-
-                ex.printStackTrace();
             }
 
         });
 
-        btnBack.addActionListener(e -> {
-            dispose();
-        });
+        btnBack.addActionListener(e -> dispose());
 
         add(lblUsername);
         add(txtUsername);
